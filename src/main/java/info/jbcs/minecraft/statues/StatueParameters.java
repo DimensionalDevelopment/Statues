@@ -1,7 +1,6 @@
 package info.jbcs.minecraft.statues;
 
 import net.minecraft.nbt.NBTTagCompound;
-import pl.asie.lib.network.Packet;
 
 import java.io.IOException;
 

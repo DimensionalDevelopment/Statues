@@ -2,6 +2,7 @@ package info.jbcs.minecraft.statues;
 
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.MoverType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -66,7 +67,7 @@ public class EntityTextureFX extends Entity{
 		}
 
 		motionY -= 0.1;
-		moveEntity(motionX, motionY, motionZ);
+		move(MoverType.SELF, motionX, motionY, motionZ);
 //		motionX *= 0.9800000190734863D;
 //		motionY *= 0.9800000190734863D;
 //		motionZ *= 0.9800000190734863D;

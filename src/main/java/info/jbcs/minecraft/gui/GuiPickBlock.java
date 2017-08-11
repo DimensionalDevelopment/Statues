@@ -1,6 +1,8 @@
 package info.jbcs.minecraft.gui;
 
 
+import java.io.IOException;
+
 import info.jbcs.minecraft.utilities.GeneralClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -37,7 +39,15 @@ public class GuiPickBlock extends GuiContainer
     @Override
     public void handleMouseInput()
     {
-        super.handleMouseInput();
+        try
+		{
+			super.handleMouseInput();
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         scrollbar.handleMouseInput();
     }
 

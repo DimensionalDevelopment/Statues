@@ -1,7 +1,7 @@
 package info.jbcs.minecraft.statues;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ProxyClient extends Proxy {
 	@Override

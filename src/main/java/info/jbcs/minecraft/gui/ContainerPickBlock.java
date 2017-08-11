@@ -5,12 +5,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
-import java.util.ArrayList;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 
 public class ContainerPickBlock extends Container
 {
-    ArrayList<ItemStack> items = new ArrayList<ItemStack>();
+    NonNullList<ItemStack> items=NonNullList.create(); //= new ArrayList<ItemStack>();
     GuiPickBlock gui;
     EntityPlayer player;
     int width = 9;
@@ -20,9 +20,10 @@ public class ContainerPickBlock extends Container
 
     public ContainerPickBlock(EntityPlayer p)
     {
-        for (Object o : Item.itemRegistry.getKeys())
+        for (Object o : Item.REGISTRY.getKeys())
+//        	for (Object o : Item.itemRegistry.getKeys())
         {
-            Item item = (Item)Item.itemRegistry.getObject((String)o);
+            Item item = (Item)Item.REGISTRY.getObject((ResourceLocation)o);
 
             if (item != null && item.getCreativeTab() != null)
             {
@@ -52,6 +53,7 @@ public class ContainerPickBlock extends Container
         {
             return false;
         }
+
     };
 
     public void scrollTo(float offset)

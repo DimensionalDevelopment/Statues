@@ -6,7 +6,11 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.inventory.Container;
+
+import java.io.IOException;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -108,7 +112,14 @@ public class GuiScreenPlus extends GuiContainer {
 		}
 
 		if (!mouseEvent.handled) {
-			super.handleMouseInput();
+			try
+			{
+				super.handleMouseInput();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -132,7 +143,14 @@ public class GuiScreenPlus extends GuiContainer {
 		}
 
 		if (!keyboardEvent.handled) {
-			super.handleKeyboardInput();
+			try
+			{
+				super.handleKeyboardInput();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -186,8 +204,8 @@ public class GuiScreenPlus extends GuiContainer {
 		if(rw==0 || rh==0 || tw==0 || th==0) return;
 		
 		float pixel = 0.00390625f;
-		Tessellator tessellator = Tessellator.instance;
-		tessellator.startDrawingQuads();
+		Tessellator tessellator = Tessellator.getInstance();
+		tessellator.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 
 		for (int y = 0; y < rh; y += th) {
 			for (int x = 0; x < rw; x += tw) {
@@ -211,10 +229,15 @@ public class GuiScreenPlus extends GuiContainer {
 				double u2 = pixel * (u + tw);
 				double v1 = pixel * (v);
 				double v2 = pixel * (v + th);
-				tessellator.addVertexWithUV(x1, y2, this.zLevel, u1, v2);
-				tessellator.addVertexWithUV(x2, y2, this.zLevel, u2, v2);
-				tessellator.addVertexWithUV(x2, y1, this.zLevel, u2, v1);
-				tessellator.addVertexWithUV(x1, y1, this.zLevel, u1, v1);
+				tessellator.getBuffer().pos(x1, y2, this.zLevel).tex(u1, v2).endVertex();
+				tessellator.getBuffer().pos(x2, y2, this.zLevel).tex(u2, v2).endVertex();
+				tessellator.getBuffer().pos(x2, y1, this.zLevel).tex(u2, v1).endVertex();
+				tessellator.getBuffer().pos(x1, y1, this.zLevel).tex(u1, v1).endVertex();
+
+//				tessellator.addVertexWithUV(x1, y2, this.zLevel, u1, v2);
+//				tessellator.addVertexWithUV(x2, y2, this.zLevel, u2, v2);
+//				tessellator.addVertexWithUV(x2, y1, this.zLevel, u2, v1);
+//				tessellator.addVertexWithUV(x1, y1, this.zLevel, u1, v1);
 			}
 		}
 
@@ -227,6 +250,6 @@ public class GuiScreenPlus extends GuiContainer {
 
 	public void playSound(String sound, float volume, float pitch) {
 		// TODO
-		//mc.getSoundHandler().playSoundFX(null, 1.0F, 1.0F);
+//		mc.getSoundHandler().playSoundFX(null, 1.0F, 1.0F);
 	}
 }

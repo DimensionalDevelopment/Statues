@@ -4,6 +4,8 @@
 
 package info.jbcs.minecraft.statues;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,145 +14,158 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import pl.asie.lib.block.TileEntityInventory;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
 
-import java.util.Random;
+public class TileEntityStatue extends TileEntity
+{
+	private EntityPlayer clientPlayer;
+	public String skinName = "";
+	public StatueParameters pose = new StatueParameters();
 
-public class TileEntityStatue extends TileEntityInventory {
-	private EntityPlayer	clientPlayer;
-	public String			skinName	= "";
-	public StatueParameters	pose		= new StatueParameters();
+	public Block block = Blocks.STONE;
+	public int meta = 0;
+	public int facing = 0;
+	boolean updated = true;
 
-	public Block			block		= Blocks.stone;
-	public int				meta		= 0;
-	public int				facing		= 0;
-	boolean					updated		= true;
-
-	void randomize(Random rand){
+	void randomize(Random rand)
+	{
 	}
 
-	@Override
-	public int getSizeInventory() {
+	public int getSizeInventory()
+	{
 		return 6;
 	}
 
-	public EntityStatuePlayer getStatue(){
-		if(clientPlayer==null){
-			EntityStatuePlayer player=new EntityStatuePlayer(worldObj, skinName);
-			player.ticksExisted=10;
-			player.pose=pose;
+	public EntityStatuePlayer getStatue()
+	{
+		if (clientPlayer == null)
+		{
+			EntityStatuePlayer player = new EntityStatuePlayer(world, skinName);
+			player.ticksExisted = 10;
+			player.pose = pose;
 			player.applySkin(skinName, block, facing, meta);
 
-			clientPlayer=player;
-			for(int i = 0; i < 6; i++) {
+			clientPlayer = player;
+			for (int i = 0; i < 6; i++)
+			{
 				this.onInventoryUpdate(i);
 			}
 		}
-		
-		return (EntityStatuePlayer)clientPlayer;
+
+		return (EntityStatuePlayer) clientPlayer;
 	}
-	
+
 	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound) {
+	public void readFromNBT(NBTTagCompound nbttagcompound)
+	{
 		super.readFromNBT(nbttagcompound);
 
 		skinName = nbttagcompound.getString("skin");
 		pose.readFromNBT(nbttagcompound);
-		
-		block=Block.getBlockById(nbttagcompound.getShort("blockId"));
-		if(block==null) block=Blocks.stone;
-		meta=nbttagcompound.getByte("meta");
-		facing=nbttagcompound.getByte("face");
-		
+
+		block = Block.getBlockById(nbttagcompound.getShort("blockId"));
+		if (block == null)
+			block = Blocks.STONE;
+		meta = nbttagcompound.getByte("meta");
+		facing = nbttagcompound.getByte("face");
+
 		updateModel();
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound)
+	{
 		super.writeToNBT(nbttagcompound);
-		
+
 		nbttagcompound.setString("skin", skinName);
 		pose.writeToNBT(nbttagcompound);
-		
-		nbttagcompound.setShort("blockId",(short)Block.getIdFromBlock(block));
-		nbttagcompound.setByte("meta",(byte)meta);
-		nbttagcompound.setByte("face",(byte)facing);
+
+		nbttagcompound.setShort("blockId", (short) Block.getIdFromBlock(block));
+		nbttagcompound.setByte("meta", (byte) meta);
+		nbttagcompound.setByte("face", (byte) facing);
+		return nbttagcompound;
 	}
 
-	@Override
-	public void openInventory() {
-		
-	}
-
-	@Override
-	public void closeInventory() {
+	public void openInventory()
+	{
 
 	}
 
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+	public void closeInventory()
+	{
+
+	}
+
+	public boolean isItemValidForSlot(int i, ItemStack itemstack)
+	{
 		return true;
 	}
 
-	@Override
-	public Packet getDescriptionPacket() {
-		if ((worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & 4) != 0)
+	public Packet getDescriptionPacket()
+	{
+		if ((block.getMetaFromState(world.getBlockState(this.pos)) & 4) != 0)
 			return null;
 
 		NBTTagCompound tag = new NBTTagCompound();
-		writeToNBT(tag);
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, tag);
+		tag = writeToNBT(tag);
+		return new SPacketUpdateTileEntity(this.pos, 1, tag);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
-		readFromNBT(pkt.func_148857_g());
-		
-		if(worldObj.isRemote && Minecraft.getMinecraft().currentScreen instanceof GuiStatue){
-			GuiStatue gui=(GuiStatue) Minecraft.getMinecraft().currentScreen;
-			pose.itemLeftA=gui.ila;
-			pose.itemRightA=gui.ira;
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	{
+		readFromNBT(pkt.getNbtCompound());
+		// func_148857_g();
+		if (world.isRemote && Minecraft.getMinecraft().currentScreen instanceof GuiStatue)
+		{
+			GuiStatue gui = (GuiStatue) Minecraft.getMinecraft().currentScreen;
+			pose.itemLeftA = gui.ila;
+			pose.itemRightA = gui.ira;
 		}
 	}
 
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
+	public ItemStack getStackInSlotOnClosing(int i)
+	{
 		return null;
 	}
-	
-	public void updateModel() {
-		if(clientPlayer!=null && worldObj!=null && worldObj.isRemote){
-			((EntityStatuePlayer)clientPlayer).applySkin(skinName, block, facing, meta);
-		}
-		
-		updated=false;
-	}
-	
-    @Override
-	public void updateEntity(){
-    	if(updated) return;
-    	updated=true;
-    	
-    }
 
-	@Override
-	public boolean hasCustomInventoryName() {
+	public void updateModel()
+	{
+		if (clientPlayer != null && world != null && world.isRemote)
+		{
+			((EntityStatuePlayer) clientPlayer).applySkin(skinName, block, facing, meta);
+		}
+
+		updated = false;
+	}
+
+	public void updateEntity()
+	{
+		if (updated)
+			return;
+		updated = true;
+
+	}
+
+	public boolean hasCustomInventoryName()
+	{
 		return false;
 	}
 
-	@Override
-	public void onInventoryUpdate(int slot) {
-		if(clientPlayer != null) {		
-			clientPlayer.inventory.mainInventory[0]=getStackInSlot(4);
-			clientPlayer.inventory.mainInventory[1]=getStackInSlot(5);
-			clientPlayer.inventory.armorInventory[0]=getStackInSlot(3);
-			clientPlayer.inventory.armorInventory[1]=getStackInSlot(2);
-			clientPlayer.inventory.armorInventory[2]=getStackInSlot(1);
-			clientPlayer.inventory.armorInventory[3]=getStackInSlot(0);
+	public void onInventoryUpdate(int slot)
+	{
+		if (clientPlayer != null)
+		{
+			clientPlayer.inventory.mainInventory.set(0, getStackInSlotOnClosing(4));
+			clientPlayer.inventory.mainInventory.set(1, getStackInSlotOnClosing(5));
+			clientPlayer.inventory.armorInventory.set(0, getStackInSlotOnClosing(3));
+			clientPlayer.inventory.armorInventory.set(1, getStackInSlotOnClosing(2));
+			clientPlayer.inventory.armorInventory.set(2, getStackInSlotOnClosing(1));
+			clientPlayer.inventory.armorInventory.set(3, getStackInSlotOnClosing(0));
 		}
 
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		world.markBlockRangeForRenderUpdate(pos, pos);
 	}
 
 }
