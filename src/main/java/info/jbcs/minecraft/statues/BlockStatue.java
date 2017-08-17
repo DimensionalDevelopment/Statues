@@ -22,7 +22,7 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 //import pl.asie.lib.util.ItemUtils;
-import pl.asie.lib.AsieLibMod;
+//import pl.asie.lib.AsieLibMod;
 
 import java.util.Random;
 
@@ -139,20 +139,19 @@ public class BlockStatue extends BlockContainer
 	@Override
 	public IIcon getIcon(int side, int meta)
 	{
-		return Blocks.stone.getIcon(0, 0);
+		return Blocks.STONE.getIcon(0, 0);
 	}
 
-	@Override
 	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
 	{
-		TileEntity te = world.getTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(new BlockPos(new Vec3d(x, y, z)));
 		if (!(te instanceof TileEntityStatue))
-			return Blocks.stone.getIcon(0, 0);
+			return Blocks.STONE.getIcon(0, 0);
 		TileEntityStatue statue = (TileEntityStatue) te;
 
 		Block block = statue.block;
 		if (block == null)
-			return Blocks.stone.getIcon(0, 0);
+			return Blocks.STONE.getIcon(0, 0);
 
 		return block.getIcon(side, statue.meta);
 	}
@@ -165,21 +164,19 @@ public class BlockStatue extends BlockContainer
 		if (!isStatue(world, x, y, z))
 			return 0;
 
-		TileEntity te = world.getTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		if (!(te instanceof TileEntityStatue))
 			return 0;
 		TileEntityStatue statue = (TileEntityStatue) te;
 
-		return statue.block.getLightValue();
+		return statue.block.getLightValue(statue.block.getDefaultState());
 	}
 
-	@Override
 	public boolean canProvidePower()
 	{
 		return true;
 	}
 
-	@Override
 	public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side)
 	{
 		int ox = x, oy = y, oz = z;
@@ -188,13 +185,15 @@ public class BlockStatue extends BlockContainer
 		if (!isStatue(world, x, y, z))
 			return 0;
 
-		TileEntity te = world.getTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		if (!(te instanceof TileEntityStatue))
 			return 0;
 		TileEntityStatue statue = (TileEntityStatue) te;
 
 		if (statue.block == null)
 			return 0;
-		return statue.block.isProvidingWeakPower(world, ox, oy, oz, side);
+		return statue.block.getWeakPower(blockState, blockState, new BlockPos(ox, oy, oz), side);
+		//(world, ox, oy, oz, side);
+//		return statue.block.isProvidingWeakPower(world, ox, oy, oz, side);
 	}
 }

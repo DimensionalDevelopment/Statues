@@ -1,5 +1,10 @@
 package info.jbcs.minecraft.statues;
 
+import java.util.Random;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import info.jbcs.minecraft.gui.GuiEdit;
 import info.jbcs.minecraft.gui.GuiExButton;
 import info.jbcs.minecraft.gui.GuiLabel;
@@ -10,12 +15,10 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.Packet;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-import pl.asie.lib.network.Packet;
-
-import java.util.Random;
 
 public class GuiSculpt extends GuiScreenPlus  {
 	Random rand=new Random();
@@ -45,8 +48,8 @@ public class GuiSculpt extends GuiScreenPlus  {
 		worldX=px; worldY=py; worldZ=pz;
 		face=facing;
 		
-		block=world.getBlock(worldX, worldY, worldZ);
-		blockMeta=world.getBlockMetadata(worldX, worldY, worldZ);
+		block=world.getBlockState(new BlockPos(new Vec3d(worldX, worldY, worldZ))).getBlock();
+		blockMeta=block.getMetaFromState(block.getDefaultState());//world.getBlockMetadata(worldX, worldY, worldZ);
 		
 		
 		addChild(new GuiLabel(63, 136, "Player name:"));
@@ -79,7 +82,7 @@ public class GuiSculpt extends GuiScreenPlus  {
 		    		
 		    		Statues.packet.sendToServer(asculpt);
 		    	} catch(Exception e) { e.printStackTrace(); }
-				mc.thePlayer.closeScreen();
+				mc.player.closeScreen();
 			}
 		});
 		
@@ -125,10 +128,10 @@ public class GuiSculpt extends GuiScreenPlus  {
 			}
 		});
 			
-		player=new EntityStatuePlayer(Minecraft.getMinecraft().theWorld,"");
+		player=new EntityStatuePlayer(Minecraft.getMinecraft().world,"");
 		player.pose=pose;
 		
-		renderer.setRenderManager(RenderManager.instance);
+//		renderer.setRenderManager(new RenderManager());
 	}
 
 	@Override
@@ -159,7 +162,7 @@ public class GuiSculpt extends GuiScreenPlus  {
         player.prevRotationYaw = player.rotationYaw = (float)Math.atan((par3 / 40.0F)) * 40.0F;
         player.prevRotationPitch = player.rotationPitch = -((float)Math.atan((par4 / 40.0F))) * 20.0F;
         player.prevRotationYawHead = player.rotationYawHead = player.prevRotationYaw;
-        GL11.glTranslatef(0.0F, player.yOffset, 0.0F);
+        GL11.glTranslatef(0.0F, (float) player.getYOffset(), 0.0F);
         renderer.doRender(player, 0, 0, 0, 0, 0.01f);
         GL11.glPopMatrix();
 

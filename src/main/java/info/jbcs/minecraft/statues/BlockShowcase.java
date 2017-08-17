@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -139,10 +138,10 @@ public class BlockShowcase extends BlockContainer
 	/**
 	 * Called upon block activation (right click on the block.)
 	 */
-	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityplayer, int par6, float par7, float par8, float par9)
 	{
-		int meta = world.getBlockMetadata(x, y, z);
+		BlockPos pos = new BlockPos(new Vec3d(x, y, z));
+		int meta = world.getBlockState(pos).getBlock().getMetaFromState(getDefaultState());
 
 		if ((meta & 4) != 0)
 		{
@@ -151,22 +150,22 @@ public class BlockShowcase extends BlockContainer
 				default:
 				case 0:
 				case 2:
-					if (isCenterBlock(world, x - 1, y, z))
+					if (isCenterBlock(world, new BlockPos(new Vec3d(x - 1, y, z))))
 						x--;
-					else if (isCenterBlock(world, x + 1, y, z))
+					else if (isCenterBlock(world, new BlockPos(new Vec3d(x + 1, y, z))))
 						x++;
 					break;
 				case 1:
 				case 3:
-					if (isCenterBlock(world, x, y, z - 1))
+					if (isCenterBlock(world, new BlockPos(new Vec3d(x, y, z - 1))))
 						z--;
-					else if (isCenterBlock(world, x, y, z + 1))
+					else if (isCenterBlock(world, new BlockPos(new Vec3d(x, y, z + 1))))
 						z++;
 					break;
 			}
 		}
 
-		if (!isCenterBlock(world, x, y, z))
+		if (!isCenterBlock(world, new BlockPos(new Vec3d(x, y, z))))
 			return true;
 
 		TileEntityShowcase teshowcase = (TileEntityShowcase) world.getTileEntity(new BlockPos(new Vec3d(x, y, z)));
@@ -213,9 +212,9 @@ public class BlockShowcase extends BlockContainer
 					break;
 				case 1:
 				case 3:
-					if (isCenterBlock(world, new BlockPos(new Vec3d(x, y, z-1))))
+					if (isCenterBlock(world, new BlockPos(new Vec3d(x, y, z - 1))))
 						z--;
-					else if (isCenterBlock(world, new BlockPos(new Vec3d(x, y, z+1))))
+					else if (isCenterBlock(world, new BlockPos(new Vec3d(x, y, z + 1))))
 						z++;
 					else
 						found = false;
@@ -232,18 +231,18 @@ public class BlockShowcase extends BlockContainer
 		{
 			case 0:
 			case 2:
-				world.setBlockToAir(new BlockPos(new Vec3d(x+1, y, z)));
-				world.setBlockToAir(new BlockPos(new Vec3d(x-1, y, z)));
+				world.setBlockToAir(new BlockPos(new Vec3d(x + 1, y, z)));
+				world.setBlockToAir(new BlockPos(new Vec3d(x - 1, y, z)));
 				break;
 			case 1:
 			case 3:
-				world.setBlockToAir(new BlockPos(new Vec3d(x, y, z+1)));
-				world.setBlockToAir(new BlockPos(new Vec3d(x, y, z-1)));
+				world.setBlockToAir(new BlockPos(new Vec3d(x, y, z + 1)));
+				world.setBlockToAir(new BlockPos(new Vec3d(x, y, z - 1)));
 
 				break;
 		}
 
-		super.breakBlock(world, new BlockPos(new Vec3d(xx,yy,zz)), block.getDefaultState());
+		super.breakBlock(world, new BlockPos(new Vec3d(xx, yy, zz)), block.getDefaultState());
 	}
 
 	@Override
@@ -255,7 +254,7 @@ public class BlockShowcase extends BlockContainer
 	@Override
 	public IIcon getIcon(int side, int meta)
 	{
-		return Blocks.planks.getIcon(2, 0);
+		return Blocks.PLANKS.getIcon(2, 0);
 	}
 
 }

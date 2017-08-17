@@ -1,21 +1,27 @@
 package info.jbcs.minecraft.statues;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EffectRenderer;
-import net.minecraft.client.particle.EntityDiggingFX;
+import net.minecraft.client.particle.ParticleManager;
+//import net.minecraft.client.particle.EffectRenderer;
+//import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
-import java.util.Random;
 
 public class GeneralStatueClient {
 	static Random rand=new Random();
 	
 	public static EntityDiggingFX addBlockHitEffects(World world, int x, int y, int z, Block block, int meta, int side) {
-		EffectRenderer renderer = Minecraft.getMinecraft().effectRenderer;
+//		public static EntityDiggingFX addBlockHitEffects(World world, int x, int y, int z, Block block, int meta, int side) {
+		ParticleManager renderer = Minecraft.getMinecraft().effectRenderer;
 
 		if(block==null) return null;
 		
@@ -58,7 +64,7 @@ public class GeneralStatueClient {
 	public static void spawnSculptEffect(int x, int y, int z, Block block, byte meta) {
 		if(block==null) return;
 		
-		World world = Minecraft.getMinecraft().theWorld;
+		World world = Minecraft.getMinecraft().world;
 		for (int side = 0; side < 6; side++) {
 			for (int j = 0; j < 32; j++) {
 				EntityDiggingFX fx = addBlockHitEffects(Minecraft.getMinecraft().theWorld, x, y, z, block, meta, side);
@@ -69,7 +75,8 @@ public class GeneralStatueClient {
 			}
 		}
 
-		Minecraft.getMinecraft().theWorld.playSound(x + 0.5, y + 0.5, z + 0.5, block.stepSound.getBreakSound(), 1.0f, 0.6f + 0.4f * rand.nextFloat(), true);
+//		Minecraft.getMinecraft().world.playSound(x, y, z, soundIn, category, volume, pitch, distanceDelay);(x + 0.5, y + 0.5, z + 0.5, block.getSoundType().getStepSound(), 1.0f, 0.6f + 0.4f * rand.nextFloat(), true);
+		Minecraft.getMinecraft().world.playSound(x + 0.5, y + 0.5, z + 0.5, block.getSoundType().getStepSound(),SoundCategory.BLOCKS, 1.0f, 0.6f + 0.4f * rand.nextFloat(), true);
 	}
 	
 	public static ResourceLocation getBlockIcon(Block block, int side, int meta) {
@@ -84,7 +91,7 @@ public class GeneralStatueClient {
 
 	
 	public static EntityTextureFX addTextureEffects(World world, int x, int y, int z, AbstractTexture texture, int side,float u,float v) {
-		Block block = world.getBlock(x, y, z);
+		Block block = world.getBlockState(new BlockPos(new Vec3d(x, y, z))).getBlock();
 		if(block==null) return null;
 		
 		double w = block.getBlockBoundsMaxX() - block.getBlockBoundsMinX();
@@ -127,7 +134,7 @@ public class GeneralStatueClient {
 	}
 
 	public static void spawnPaintEffect(World world,int x, int y, int z) {
-		TileEntity te = world.getTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(new BlockPos(new Vec3d(x, y, z)));
 		if (! (te instanceof TileEntityStatue))
 			return;
 		TileEntityStatue statue=(TileEntityStatue) te;
@@ -138,14 +145,15 @@ public class GeneralStatueClient {
 		for(int side=2;side<6;side++){
 			for(int i=0;i<80;i++){
 				EntityTextureFX p=addTextureEffects(world,x,y+i%2,z,tex,side,0.05f,0.1f);
-				if(p!=null) world.spawnEntityInWorld(p);
+				if(p!=null) world.spawnEntity(p);
 			}
 		}
 		
 	}
 
 	public static void spawnCopyEffect(World world, int x, int y, int z, int side, float hx, float hy, float hz, TileEntityStatue statue) {
-		world.playSound(x + 0.5, y + 0.5, z + 0.5, "statues:copy", 2.0F, world.rand.nextFloat()*0.4f+0.8f, false);
+//		world.playSound(hx, y, z, soundIn, category, volume, pitch, distanceDelay);(x + 0.5, y + 0.5, z + 0.5, "statues:copy", 2.0F, world.rand.nextFloat()*0.4f+0.8f, false);
+		world.playSound(x + 0.5, y + 0.5, z + 0.5, SoundEvent.REGISTRY.getObject(new ResourceLocation("statues:copy")), SoundCategory.BLOCKS , 2.0F, world.rand.nextFloat()*0.4f+0.8f, false);
 
 		for(int i=0;i<8;i++){
 			EntityDiggingFX fx = addBlockHitEffects(Minecraft.getMinecraft().theWorld, x, y, z, statue.block, statue.meta, side);

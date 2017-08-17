@@ -19,9 +19,9 @@ public abstract class ContainerBase extends ContainerInventory {
 	public ContainerBase(TileEntity entity, InventoryPlayer inventory)
 	{
 		super(entity instanceof IInventory ? ((IInventory) entity) : null);
-		this.entity = entity.;
+		this.entity = (TileEntityBase) entity;
 
-		entity.openInventory();
+		this.entity.openInventory();
 	}
 
 	public TileEntityBase getEntity() {

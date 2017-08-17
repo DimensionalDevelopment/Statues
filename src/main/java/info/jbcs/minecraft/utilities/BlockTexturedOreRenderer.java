@@ -1,12 +1,13 @@
 package info.jbcs.minecraft.utilities;
 
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
+import org.lwjgl.opengl.GL11;
+
+//import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
+//import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.IBlockAccess;
-import org.lwjgl.opengl.GL11;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class BlockTexturedOreRenderer implements ISimpleBlockRenderingHandler {
 	float bot=-0.001f,top=1.0f-bot;
@@ -25,7 +26,7 @@ public class BlockTexturedOreRenderer implements ISimpleBlockRenderingHandler {
 		
 		if(block.icon!=null){
 			renderer.overrideBlockTexture=block.icon;
-			renderer.renderBlockAsItem(Blocks.stone,meta,1.0f);
+			renderer.renderBlockAsItem(Blocks.STONE,meta,1.0f);
 			renderer.overrideBlockTexture=null;
 		} else if(block.base!=null){
 			renderer.renderBlockAsItem(block.base,meta,1.0f);
@@ -46,7 +47,7 @@ public class BlockTexturedOreRenderer implements ISimpleBlockRenderingHandler {
 		BlockTexturedOre block=(BlockTexturedOre) blck;
 		
 		if(block.currentPass==0){
-			if(block.icon!=null){
+			if(block.iconFile!=null){
 				renderer.overrideBlockTexture=block.icon;
 				renderer.renderStandardBlock(block, x, y, z);
 				renderer.overrideBlockTexture=null;

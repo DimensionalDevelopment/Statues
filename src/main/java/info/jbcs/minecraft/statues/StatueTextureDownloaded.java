@@ -36,7 +36,7 @@ public class StatueTextureDownloaded extends AbstractTexture {
 		TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
 		data = (ThreadDownloadImageData) texturemanager.getTexture(origLocation);
 		if (data == null) {
-			data = new ThreadDownloadImageData((File)null, url, SkinManager.field_152793_a, new IImageBuffer() {
+			data = new ThreadDownloadImageData((File)null, url, SkinManager, new IImageBuffer() {
 				@Override
 				public BufferedImage parseUserSkin(BufferedImage image) {
 					bufferedImage=image;
@@ -45,7 +45,8 @@ public class StatueTextureDownloaded extends AbstractTexture {
 				}
 
 				@Override
-				public void func_152634_a() {
+				public void skinAvailable()
+				{
 					// TODO Auto-generated method stub
 					
 				}

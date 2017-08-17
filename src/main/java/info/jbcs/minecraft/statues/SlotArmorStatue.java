@@ -9,7 +9,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+//import net.minecraft.util.IIcon;
 
 public class SlotArmorStatue extends Slot {
 	private final int	armorType;	// The armor type that can be placed on that
@@ -36,7 +36,14 @@ public class SlotArmorStatue extends Slot {
 	 */
 	@Override
 	public boolean isItemValid(ItemStack par1ItemStack) {
-		return par1ItemStack.getItem() instanceof ItemArmor ? ((ItemArmor) par1ItemStack.getItem()).armorType == this.armorType : (par1ItemStack.getItem().equals(Blocks.pumpkin) ? this.armorType == 0 : false);
+		if (par1ItemStack.getItem() instanceof ItemArmor)
+		{
+			return ((ItemArmor) par1ItemStack.getItem()).armorType.getIndex() == this.armorType;
+		}
+		else
+		{
+			return (par1ItemStack.getItem().equals(Blocks.PUMPKIN) ? this.armorType == 0 : false);
+		}
 	}
 
 	/**

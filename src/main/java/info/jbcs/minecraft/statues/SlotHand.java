@@ -6,7 +6,7 @@ package info.jbcs.minecraft.statues;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.util.IIcon;
+//import net.minecraft.util.IIcon;
 
 public class SlotHand extends Slot {
 	public SlotHand(IInventory iinventory, int i, int j, int k) {
@@ -14,7 +14,7 @@ public class SlotHand extends Slot {
 	}
 
 	public SlotHand(TileEntityStatue te, int i, int j, int k) {
-		super(te, i, j, k);
+		super((IInventory) te, i, j, k);
 	}
 
 	/**

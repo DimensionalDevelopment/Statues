@@ -2,13 +2,13 @@ package info.jbcs.minecraft.utilities;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
+//import net.minecraft.client.renderer.texture.IIconRegister;
+//import net.minecraft.util.IIcon;
 
 public class BlockTexturedOre extends Block {
 	int		currentPass;
 	Block	base;
-	IIcon	icon;
+//	IIcon	icon;
 	String	iconFile;
 
 	public BlockTexturedOre(Material mat, Block base) {
@@ -23,22 +23,18 @@ public class BlockTexturedOre extends Block {
 		this.iconFile=iconFile;
 	}
 
-	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
 
-	@Override
 	public int getRenderType() {
 		return BlockTexturedOreRenderer.id;
 	}
 
-	@Override
 	public int getRenderBlockPass() {
 		return 1;
 	}
 
-	@Override
 	public boolean canRenderInPass(int pass) {
 		currentPass = pass;
 

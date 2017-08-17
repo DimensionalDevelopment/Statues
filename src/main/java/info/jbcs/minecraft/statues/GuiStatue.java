@@ -7,7 +7,6 @@ package info.jbcs.minecraft.statues;
 import info.jbcs.minecraft.gui.GuiScreenPlus;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.world.World;
-import pl.asie.lib.network.Packet;
 
 public class GuiStatue extends GuiScreenPlus {
 	public final InventoryPlayer	invg;

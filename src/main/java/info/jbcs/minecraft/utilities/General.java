@@ -1,17 +1,18 @@
 package info.jbcs.minecraft.utilities;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+//import net.minecraft.util.MovingObjectPosition;
+//import net.minecraft.util.Vec3;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
-import java.util.Random;
 
 public class General {
 	public static Random rand = new Random();
@@ -70,7 +71,7 @@ public class General {
 		double var7 = par2EntityPlayer.prevPosX + (par2EntityPlayer.posX - par2EntityPlayer.prevPosX) * var4;
 		double var9 = par2EntityPlayer.prevPosY + (par2EntityPlayer.posY - par2EntityPlayer.prevPosY) * var4 + 1.62D - par2EntityPlayer.yOffset;
 		double var11 = par2EntityPlayer.prevPosZ + (par2EntityPlayer.posZ - par2EntityPlayer.prevPosZ) * var4;
-		Vec3 var13 = Vec3.createVectorHelper(var7, var9, var11);
+		Vec3d var13 = new Vec3d(var7, var9, var11);
 		float var14 = MathHelper.cos(-var6 * 0.017453292F - (float) Math.PI);
 		float var15 = MathHelper.sin(-var6 * 0.017453292F - (float) Math.PI);
 		float var16 = -MathHelper.cos(-var5 * 0.017453292F);
@@ -83,7 +84,7 @@ public class General {
 			var21 = ((EntityPlayerMP) par2EntityPlayer).theItemInWorldManager.getBlockReachDistance();
 		}
 
-		Vec3 var23 = var13.addVector(var18 * var21, var17 * var21, var20 * var21);
+		Vec3d var23 = var13.addVector(var18 * var21, var17 * var21, var20 * var21);
 		return par1World.rayTraceBlocks(var13, var23, par3);
 	}
 

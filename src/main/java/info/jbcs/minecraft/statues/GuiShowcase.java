@@ -48,7 +48,7 @@ public class GuiShowcase extends GuiContainer {
 	@Override
 	protected void keyTyped(char c, int i) {
 		if (i == 1 || i == mc.gameSettings.keyBindInventory.getKeyCode()) {
-			mc.thePlayer.closeScreen();
+			mc.player.closeScreen();
 		}
 	}
 

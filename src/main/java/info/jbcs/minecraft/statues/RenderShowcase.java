@@ -4,10 +4,13 @@
 
 package info.jbcs.minecraft.statues;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import info.jbcs.minecraft.utilities.GeneralClient;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,8 +20,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.tileentity.TileEntity;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 public class RenderShowcase extends TileEntitySpecialRenderer {
 	private final ModelShowcase	showcase;
@@ -69,11 +70,11 @@ public class RenderShowcase extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 
-		ItemStack stack = tileentity1.getStackInSlot(0);
+		ItemStack stack = tileentity1.getStackInSlotOnClosing(0);
 		if (stack != null){
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F-0.585F, (float) z + 0.5F);
-			renderItem(tileentity1, Minecraft.getMinecraft().thePlayer, stack,meta, f);
+			renderItem(tileentity1, Minecraft.getMinecraft().player, stack,meta, f);
 			GL11.glPopMatrix();
 		}
 	}
@@ -114,7 +115,7 @@ public class RenderShowcase extends TileEntitySpecialRenderer {
 			}
 		}
 		
-		EntityItem entity = new EntityItem(null, tile.xCoord, tile.yCoord, tile.zCoord, stack);
+		EntityItem entity = new EntityItem(null, tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ(), stack);
 		entity.hoverStart = 0;
 		
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
@@ -131,7 +132,6 @@ public class RenderShowcase extends TileEntitySpecialRenderer {
 	/**
 	 * Render a TileEntity at the given coordinates
 	 */
-	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f) {
 		renderAModelAt((TileEntityShowcase) tileentity, d, d1, d2, f);
 	}

@@ -1,20 +1,16 @@
 package info.jbcs.minecraft.statues;
 
+import java.io.IOException;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetHandler;
+import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
-import pl.asie.lib.network.MessageHandlerBase;
-import pl.asie.lib.network.Packet;
-import scala.reflect.internal.Flags;
-
-import java.io.IOException;
-import java.util.Vector;
-
-import javax.vecmath.Vector3d;
+//import pl.asie.lib.network.MessageHandlerBase;
 
 public class Packets extends MessageHandlerBase
 {
@@ -109,6 +105,13 @@ public class Packets extends MessageHandlerBase
 				onSculpted(packet, player);
 				break;
 		}
+	}
+
+	@Override
+	public void onMessage(info.jbcs.minecraft.statues.Packet packet, INetHandler handler, EntityPlayer player, int command) throws IOException
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }

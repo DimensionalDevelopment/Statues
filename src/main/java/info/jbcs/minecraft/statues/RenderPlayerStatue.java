@@ -1,15 +1,23 @@
 package info.jbcs.minecraft.statues;
 
+//import static net.minecraftforge.client.IItemRenderer.ItemRenderType.EQUIPPED;
+//import static net.minecraftforge.client.IItemRenderer.ItemRendererHelper.BLOCK_3D;
+
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.authlib.GameProfile;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.RenderBlocks;
+//import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderBiped;
+import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RendererLivingEntity;
+//import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -20,27 +28,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.IItemRenderer;
+//import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
-import org.lwjgl.opengl.GL11;
 
-import static net.minecraftforge.client.IItemRenderer.ItemRenderType.EQUIPPED;
-import static net.minecraftforge.client.IItemRenderer.ItemRendererHelper.BLOCK_3D;
-
-public class RenderPlayerStatue extends RendererLivingEntity {
+public class RenderPlayerStatue extends RenderLiving<EntityLiving> {
 	public static final ResourceLocation	steveTextures	= new ResourceLocation("textures/entity/steve.png");
 	public final ModelBipedStatue			modelBipedMain;
 	public final ModelBipedStatue			modelArmorChestplate;
 	public final ModelBipedStatue			modelArmor;
 
 	public RenderPlayerStatue() {
-		super(new ModelBipedStatue(0.0F), 0.5f);
+		super(renderManager, new ModelBipedStatue(0.0F), 0.5f);
 		modelBipedMain = (ModelBipedStatue) mainModel;
 		modelArmorChestplate = new ModelBipedStatue(1.0F);
 		modelArmor = new ModelBipedStatue(0.5F);
 		shadowSize = 0.5f;
 
-		setRenderManager(RenderManager.instance);
+		setRenderManager(RenderManager);
 	}
 
 	/**
@@ -352,5 +356,12 @@ public class RenderPlayerStatue extends RendererLivingEntity {
 	@Override
 	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9) {
 		doRender((EntityLivingBase) par1Entity, par2, par4, par6, par8, par9);
+	}
+
+	@Override
+	protected ResourceLocation getEntityTexture(EntityLiving entity)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

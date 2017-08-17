@@ -4,6 +4,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import java.io.IOException;
 
+import com.jcraft.jogg.Packet;
+
 public class StatueParameters {
 	float armLeftA;
 	float armLeftB;

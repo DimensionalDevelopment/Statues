@@ -31,7 +31,7 @@ public class ContainerTileEntity<T extends TileEntity & IInventory> extends Cont
 
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer) {
-		return entity.isUseableByPlayer(entityplayer);
+		return entity.isUsableByPlayer(entityplayer);
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class ContainerTileEntity<T extends TileEntity & IInventory> extends Cont
 				}
 			}
 
-			if (itemstack1.stackSize == 0) {
+			if (itemstack1.getCount() == 0) {
 				slot.putStack(null);
 			} else {
 				slot.onSlotChanged();

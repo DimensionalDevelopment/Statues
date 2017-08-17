@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import info.jbcs.minecraft.utilities.DummyContainer;
 import info.jbcs.minecraft.utilities.GuiHandler;
 import info.jbcs.minecraft.utilities.packets.PacketHandler;
+//import info.jbcs.minecraft.utilities.packets.PacketHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;

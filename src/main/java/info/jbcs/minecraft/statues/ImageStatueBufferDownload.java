@@ -47,7 +47,7 @@ public class ImageStatueBufferDownload implements IImageBuffer {
 			setAreaOpaque(0, 0, 32, 16);
 			setAreaOpaque(0, 16, 64, 32);
 			
-			if(!block.equals(Blocks.bedrock))
+			if(!block.equals(Blocks.BEDROCK))
 				blendArea(0, 0, 64, 32, block, blockSide, blockMeta);
 			
 			if(Statues.debugImages)
@@ -63,7 +63,7 @@ public class ImageStatueBufferDownload implements IImageBuffer {
 
 	private void blendArea(int x1, int y1, int x2, int y2,Block block,int side,int meta) {
 		ImageData data=ImageData.getBlockTexture(block, side, meta);
-		if(data==null) data=ImageData.getBlockTexture(Blocks.stone, 0, 0);
+		if(data==null) data=ImageData.getBlockTexture(Blocks.STONE, 0, 0);
 		if(data==null) return;
 		
 		int stone[]=data.pixels;
@@ -143,8 +143,14 @@ public class ImageStatueBufferDownload implements IImageBuffer {
 		return false;
 	}
 
-	@Override
 	public void func_152634_a() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void skinAvailable()
+	{
 		// TODO Auto-generated method stub
 		
 	}
