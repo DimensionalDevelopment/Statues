@@ -1,13 +1,29 @@
-/*
+# eclipse
+eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
 
-# folders
-!/gradle
-!/src
-!/libs
+# idea
+out
+classes
+*.ipr
+*.iws
+*.iml
+.idea
 
-# files
-!/.gitignore
-!/README.md
-!/build.gradle
-!/gradlew
-!/gradlew.bat
+# gradle
+build
+.gradle
+
+# Netbeans
+.nb-gradle
+.nb-gradle-properties
+
+# other
+run
+.DS_Store
+Thumbs.db
