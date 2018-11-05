@@ -12,6 +12,6 @@
   "authors": [ "AUTOMATIC_MAIDEN", "asiekierka" ],
   "parent":"",
   "screenshots": [],
-  "dependencies": ["asielib"]
+  "dependencies": []
 }
 ]
