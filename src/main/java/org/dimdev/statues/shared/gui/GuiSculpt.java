@@ -21,16 +21,16 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class GuiSculpt extends GuiScreenPlus  {
-	Random rand=new Random();
-	EntityStatuePlayer player=null;
-	RenderPlayerStatue renderer=new RenderPlayerStatue();
-	static StatueParameters pose=new StatueParameters();
-	
-	GuiEdit skinNameEdit;
-	int worldX,worldY,worldZ;
-	int face;
-	Block block;
-	int blockMeta;
+	public Random rand=new Random();
+	public EntityStatuePlayer player=null;
+	public RenderPlayerStatue renderer=new RenderPlayerStatue();
+	public static StatueParameters pose=new StatueParameters();
+
+	public GuiEdit skinNameEdit;
+	public int worldX,worldY,worldZ;
+	public int face;
+	public Block block;
+	public int blockMeta;
 	private int	mouseX;
 	private int	mouseY;
 	

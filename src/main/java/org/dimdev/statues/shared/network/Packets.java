@@ -10,6 +10,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
+import org.dimdev.statues.shared.events.EventHandler;
 import org.dimdev.statues.shared.utils.GeneralStatueClient;
 import org.dimdev.statues.Statues;
 import org.dimdev.statues.shared.tileentities.TileEntityStatue;
@@ -50,9 +51,9 @@ public class Packets extends MessageHandlerBase
 		entity.meta = meta;
 		entity.facing = 2;
 
-		player.world.setBlockState(new BlockPos(new Vec3i(x, y + 1, z)), (IBlockState) Statues.statue, face | 4);
+		player.world.setBlockState(new BlockPos(new Vec3i(x, y + 1, z)), (IBlockState) EventHandler.statue, face | 4);
 		// player.world.setBlockState((x, y + 1, z, Statues.statue, face | 4, 3);
-		player.world.notifyNeighborsOfStateChange(bp, Statues.statue.getBlockState().getBlock(), true);
+		player.world.notifyNeighborsOfStateChange(bp, EventHandler.statue.getBlockState().getBlock(), true);
 		// BlocksOfNeighborChange(x, y, z, Statues.statue);
 		// player.world.notifyBlocksOfNeighborChange(x, y, z, Statues.statue);
 		player.world.markBlockRangeForRenderUpdate(x, y, z, x, y, z);

@@ -22,7 +22,7 @@ public class StatueParameters {
     float itemLeftA;
     float itemRightA;
 
-    StatueParameters() {
+    public StatueParameters() {
         armLeftA = 2.0f / 3;
         armRightA = 2.0f / 3;
         armLeftB = 0.0f;
@@ -41,7 +41,7 @@ public class StatueParameters {
         itemLeftA = 1.0f;
     }
 
-    void copyFrom(StatueParameters s) {
+    public void copyFrom(StatueParameters s) {
         armLeftA = s.armLeftA;
         armLeftB = s.armLeftB;
         armRightA = s.armRightA;
@@ -58,7 +58,7 @@ public class StatueParameters {
         itemRightA = s.itemRightA;
     }
 
-    void write(PacketBuffer stream) throws IOException {
+    public void write(PacketBuffer stream) throws IOException {
         stream.writeFloat(armLeftA);
         stream.writeFloat(armLeftB);
         stream.writeFloat(armRightA);
@@ -75,7 +75,7 @@ public class StatueParameters {
         stream.writeFloat(itemRightA);
     }
 
-    void read(PacketBuffer stream) throws IOException {
+    public void read(PacketBuffer stream) throws IOException {
         armLeftA = stream.readFloat();
         armLeftB = stream.readFloat();
         armRightA = stream.readFloat();

@@ -44,8 +44,6 @@ public class RenderPlayerStatue extends RenderLiving<EntityLiving> {
 		modelArmorChestplate = new ModelBipedStatue(1.0F);
 		modelArmor = new ModelBipedStatue(0.5F);
 		shadowSize = 0.5f;
-
-		setRenderManager(RenderManager);
 	}
 
 	/**

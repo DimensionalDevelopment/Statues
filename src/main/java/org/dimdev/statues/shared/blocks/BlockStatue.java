@@ -6,6 +6,7 @@ package org.dimdev.statues.shared.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -29,10 +30,13 @@ import java.util.Random;
 
 public class BlockStatue extends BlockContainer
 {
-	public BlockStatue(Material material)
+	public BlockStatue()
 	{
-		super(material);
-
+		super(Material.ROCK);
+		setHardness(1F);
+		setResistance(1F);
+		setRegistryName("statues.statue");
+		setSoundType(SoundType.STONE);
 		setLightOpacity(0);
 	}
 

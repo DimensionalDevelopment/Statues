@@ -16,6 +16,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import org.dimdev.statues.shared.events.EventHandler;
 import org.dimdev.statues.shared.utils.GeneralStatueClient;
 import org.dimdev.statues.Statues;
 import org.dimdev.statues.shared.tileentities.TileEntityStatue;
@@ -25,6 +26,8 @@ public class ItemPalette extends Item
 	public ItemPalette()
 	{
 		super();
+		setRegistryName("statues:palette");
+		setTranslationKey("statues.palette");
 		this.setCreativeTab(CreativeTabs.TOOLS);
 	}
 
@@ -50,9 +53,9 @@ public class ItemPalette extends Item
 			block = world.getBlockState(new BlockPos(new Vec3i(x, y, z))).getBlock();//(x, y, z);
 			meta = block.getMetaFromState(world.getBlockState(new BlockPos(new Vec3i(x, y, z))));//world.getBlockMetadata(x, y, z);
 		}
-		while (block.equals(Statues.statue) && (meta & 4) != 0);
+		while (block.equals(EventHandler.statue) && (meta & 4) != 0);
 
-		if (block != Statues.statue)
+		if (block != EventHandler.statue)
 			return EnumActionResult.SUCCESS;
 
 		TileEntity te = world.getTileEntity(new BlockPos(new Vec3i(x, y, z)));
@@ -72,7 +75,7 @@ public class ItemPalette extends Item
 		{
 			statue.updateModel();
 			GeneralStatueClient.spawnPaintEffect(world, x, y, z);
-			world.playSound(player, new BlockPos(new Vec3i(x+0.5, y+.05, z+0.5)), 			SoundEvent.REGISTRY.getObject(new ResourceLocation("statues:paint")), SoundCategory.VOICE, 0.1f, 0.1f);
+			world.playSound(player, new BlockPos(new Vec3i(x+0.5, y+.05, z+0.5)), SoundEvent.REGISTRY.getObject(new ResourceLocation("statues:paint")), SoundCategory.VOICE, 0.1f, 0.1f);
 //			(x + 0.5, y + 0.5, z + 0.5, "statues:paint", 1.0f, 1.0f, true);
 //			world.playSound(x + 0.5, y + 0.5, z + 0.5, "statues:paint", 1.0f, 1.0f, true);
 		}

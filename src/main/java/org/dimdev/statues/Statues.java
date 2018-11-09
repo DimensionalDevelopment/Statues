@@ -4,12 +4,9 @@ import java.io.File;
 
 import javax.swing.ImageIcon;
 
-import org.dimdev.statues.shared.blocks.BlockStatue;
 import org.dimdev.statues.shared.containers.ContainerStatue;
 import org.dimdev.statues.shared.gui.GuiSculpt;
 import org.dimdev.statues.shared.gui.GuiStatue;
-import org.dimdev.statues.shared.items.ItemMarteau;
-import org.dimdev.statues.shared.items.ItemPalette;
 import org.dimdev.statues.shared.network.Packets;
 import org.dimdev.statues.proxy.Proxy;
 import org.dimdev.statues.shared.tileentities.TileEntityStatue;
@@ -23,7 +20,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -40,7 +36,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid = "statues", name = "Statues", version = "2.1.4", dependencies = "required-after:asielib")
+@Mod(modid = "statues", name = "Statues", version = "2.1.4")
 public class Statues {
     static Configuration config;
 
@@ -51,10 +47,6 @@ public class Statues {
     public static Proxy proxy;
 
     public static PacketHandler packet;
-
-    public static Block statue;
-    public static Item hammer;
-    public static Item itemPalette;
 
     public static ImageIcon slotHand;
 
@@ -70,10 +62,6 @@ public class Statues {
         File configFile = event.getSuggestedConfigurationFile();
         config = new Configuration(configFile);
         config.load();
-
-        statue = new BlockStatue(Material.ROCK).setHardness(1F).setResistance(1F).setRegistryName("statues.statue");// .setStepSound(SoundCategory.BLOCKS);//Block.soundTypeStone);
-        hammer = new ItemMarteau().setRegistryName("statues:marteau").setTranslationKey("statues.marteau");
-        itemPalette = new ItemPalette().setRegistryName("statues:palette").setTranslationKey("statues.palette");
 
         GameRegistry.register(statue, new ResourceLocation("statues.statue"));
         GameRegistry.register(hammer, new ResourceLocation("statues.marteau"));
@@ -95,7 +83,7 @@ public class Statues {
          * LanguageRegistry.addName(statue, "Statue"); LanguageRegistry.addName(showcase, "Showcase"); LanguageRegistry.addName(itemShowcase, "Showcase"); LanguageRegistry.addName(hammer, "Hammer"); LanguageRegistry.addName(itemPalette, "Palette");
          */
 
-        GameRegistry.registerTileEntity(TileEntityStatue.class, "TileEntityStatue");
+        GameRegistry.registerTileEntity(TileEntityStatue.class, new ResourceLocation("statues:tile_statue"));
 
         GameRegistry.addShapedRecipe(new ItemStack(hammer, 1), " I ", " SI", "S  ", 'S', Items.STICK, 'I', Items.IRON_INGOT);
         GameRegistry.addShapedRecipe(new ItemStack(itemPalette, 1), "GB", "RW", 'W', Blocks.PLANKS, 'R', new ItemStack(Items.DYE, 1, 1), 'G', new ItemStack(Items.DYE, 1, 2), 'B', new ItemStack(Items.DYE, 1, 4));

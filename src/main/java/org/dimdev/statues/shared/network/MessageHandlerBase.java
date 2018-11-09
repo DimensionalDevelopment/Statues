@@ -2,6 +2,7 @@ package org.dimdev.statues.shared.network;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetHandler;
+import net.minecraft.network.Packet;
 
 import java.io.IOException;
 
